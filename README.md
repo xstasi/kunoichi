@@ -99,6 +99,10 @@ Example:
 
 Kunoichi was written by Alessandro Grassi <alessandro@aggro.it>.
 
+## License
+
+Kunoichi is released under the terms of GNU General Public License version 3
+
 ## Credits
 
 The author would like to thank Tom Rune Flo for writing the original ninja, and for being an
