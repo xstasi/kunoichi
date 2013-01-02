@@ -1,0 +1,86 @@
+#!/usr/bin/env ruby
+
+$LOAD_PATH.unshift './lib/'
+require 'kunoichi'
+
+# Hash for commandline flags that override configuration
+@override_config = Hash.new
+
+# Default configuration placement
+@conf_files = [ 'config.yml', '/etc/kunoichi/config.yml' ]
+
+begin
+  opts = GetoptLong.new(
+    [ '--config-file', '-c', GetoptLong::REQUIRED_ARGUMENT ],
+    [ '--help', '-h', GetoptLong::NO_ARGUMENT ],
+    [ '--dry_run', '-n', GetoptLong::NO_ARGUMENT ],
+    [ '--import', '-i', GetoptLong::REQUIRED_ARGUMENT ],
+    [ '--generate-config', '-g', GetoptLong::OPTIONAL_ARGUMENT ],
+    [ '--debug', '-d', GetoptLong::NO_ARGUMENT ],
+    [ '--pid-file', '-p', GetoptLong::REQUIRED_ARGUMENT ]
+  )
+rescue => e
+  puts e.message
+  exit
+end
+
+begin
+  opts.each do |opt, arg|
+    case opt
+      when '--help'
+        help
+      when '--config-file'
+        @conf_files = [ arg ]
+      when '--dry-run'
+        @override_config['no_kill'] = true
+        @override_config['no_kill_ppid'] = true
+      when '--debug'
+        @override_config['daemon'] = false
+        @override_config['syslog'] = false
+        @override_config['logfile'] = false
+        @override_config['debug'] = true
+      when '--pid-file'
+        @override_config['pidfile'] = arg
+      when '--import'
+        puts import_conf arg
+        exit
+      when '--generate-config'
+        if arg.empty?
+          generate_conf 'config.yml'
+        else
+          generate_conf arg
+        end
+        exit
+    end
+  end
+rescue
+  exit
+end
+
+# Attempt to include each configuration file 
+@conf_files.each do |file|
+  next unless File.readable? file
+  include_conf file
+  break
+end
+
+# If we're done attempting ad have no @config it means none could be loaded
+unless @config.is_a? Hash
+  puts 'Could not find any configuration files. Tried to load: ' + @conf_files.to_s
+  exit
+end
+
+# Handle commandline overrides in configuration
+[ 'debug', 'no_kill', 'no_kill_ppid', 'daemon', 'syslog', 'logfile', 'pidfile' ].each do |flag|
+  unless @override_config[flag].nil?
+    @config[flag] = @override_config[flag]
+  end
+end
+
+# Start kunoichi
+begin
+  Kunoichi::Daemon.new @config
+rescue => e
+  puts 'Cannot start kunoichi: ' + e.message
+  puts e.backtrace if @config['debug']
+end

@@ -1,0 +1,11 @@
+GEM
+  specs:
+    logger (1.2.8)
+    syslog-logger (1.6.8)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  logger (~> 1.2.8)
+  syslog-logger (~> 1.6.8)
