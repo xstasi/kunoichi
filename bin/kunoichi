@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 
-$LOAD_PATH.unshift './lib/'
 require 'kunoichi'
 
 # Hash for commandline flags that override configuration
