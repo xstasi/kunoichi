@@ -15,11 +15,13 @@ end
 # Try to include yaml configuration
 def include_conf(file)
   begin
-    raise 'empty file' unless @config = YAML.load_file(file)
+    raise 'empty file' unless readconf = YAML.load_file(file)
   rescue => e
     puts "Cannot load configuration: #{e.message}"
     exit
   end
+  @config = readconf.merge! @config
+  @config[:loaded] = true
 end
 
 # Parse a ninja configuration file and return kunoichi yaml configuration

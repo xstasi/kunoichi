@@ -2,8 +2,8 @@
 
 require 'kunoichi'
 
-# Hash for commandline flags that override configuration
-@override_config = Hash.new
+# Hash for commandline flags
+@config = Hash.new
 
 # Default configuration placement
 @conf_files = [ 'config.yml', '/etc/kunoichi/config.yml' ]
@@ -31,15 +31,15 @@ begin
       when '--config-file'
         @conf_files = [ arg ]
       when '--dry-run'
-        @override_config['no_kill'] = true
-        @override_config['no_kill_ppid'] = true
+        @config['no_kill'] = true
+        @config['no_kill_ppid'] = true
       when '--debug'
-        @override_config['daemon'] = false
-        @override_config['syslog'] = false
-        @override_config['logfile'] = false
-        @override_config['debug'] = true
+        @config['daemon'] = false
+        @config['syslog'] = false
+        @config['logfile'] = false
+        @config['debug'] = true
       when '--pid-file'
-        @override_config['pidfile'] = arg
+        @config['pidfile'] = arg
       when '--import'
         puts import_conf arg
         exit
@@ -64,16 +64,9 @@ end
 end
 
 # If we're done attempting ad have no @config it means none could be loaded
-unless @config.is_a? Hash
+unless @config[:loaded]
   puts 'Could not find any configuration files. Tried to load: ' + @conf_files.to_s
   exit
-end
-
-# Handle commandline overrides in configuration
-[ 'debug', 'no_kill', 'no_kill_ppid', 'daemon', 'syslog', 'logfile', 'pidfile' ].each do |flag|
-  unless @override_config[flag].nil?
-    @config[flag] = @override_config[flag]
-  end
 end
 
 # Start kunoichi
