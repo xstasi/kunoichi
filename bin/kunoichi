@@ -12,7 +12,7 @@ begin
   opts = GetoptLong.new(
     [ '--config-file', '-c', GetoptLong::REQUIRED_ARGUMENT ],
     [ '--help', '-h', GetoptLong::NO_ARGUMENT ],
-    [ '--dry_run', '-n', GetoptLong::NO_ARGUMENT ],
+    [ '--dry-run', '-n', GetoptLong::NO_ARGUMENT ],
     [ '--import', '-i', GetoptLong::REQUIRED_ARGUMENT ],
     [ '--generate-config', '-g', GetoptLong::OPTIONAL_ARGUMENT ],
     [ '--debug', '-d', GetoptLong::NO_ARGUMENT ],
