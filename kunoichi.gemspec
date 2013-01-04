@@ -11,7 +11,6 @@ Gem::Specification.new do |s|
   s.files       = Dir.glob('lib/**/*.rb')
   s.executables << 'kunoichi'
 
-  s.add_runtime_dependency 'logger', '~> 1.2.8'
   s.add_runtime_dependency 'syslog-logger', '~> 1.6.8'
 end
   
