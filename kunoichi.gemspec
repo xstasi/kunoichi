@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'kunoichi'
-  s.version     = '0.0.1'
+  s.version     = '0.0.2'
   s.homepage    = 'https://github.com/xstasi/kunoichi'
   s.authors     = [ 'Alessandro Grassi' ] 
   s.email       = ['alessandro@aggro.it']
