@@ -11,6 +11,7 @@ require 'kunoichi'
 begin
   opts = GetoptLong.new(
     [ '--config-file', '-c', GetoptLong::REQUIRED_ARGUMENT ],
+    [ '--whitelist', '-w', GetoptLong::REQUIRED_ARGUMENT ],
     [ '--help', '-h', GetoptLong::NO_ARGUMENT ],
     [ '--dry-run', '-n', GetoptLong::NO_ARGUMENT ],
     [ '--import', '-i', GetoptLong::REQUIRED_ARGUMENT ],
@@ -40,6 +41,9 @@ begin
         @config['debug'] = true
       when '--pid-file'
         @config['pidfile'] = arg
+      when '--whitelist'
+        @config['whitelist'] = arg
+        @config['whitelist'] = false if arg == 'false'
       when '--import'
         puts import_conf arg
         exit

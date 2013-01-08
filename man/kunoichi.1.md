@@ -36,6 +36,9 @@ Kunoichi supports some runtime options to change its behavior, overriding the co
   * `-p`,`--pid-file` <file>:
     Write the pid to an alternate pid file than the one written in the configuration.
 
+  * `-w`,`--whitelist` <file>:
+    Use <file> as the whitelist instead of the configured one.
+
 ### Miscellaneous options:
 
   * `-h`,`--help`:
