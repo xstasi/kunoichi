@@ -9,6 +9,8 @@ Gem::Specification.new do |s|
   s.description = "A Ruby rewrite of Tom Rune Flo's Ninja, a privilege escalation monitor."
 
   s.files       = Dir.glob('lib/**/*.rb')
+  s.files       += ['README.md']
+  s.files       += Dir.glob('examples/*')
   s.executables << 'kunoichi'
 
   s.add_runtime_dependency 'syslog-logger', '~> 1.6.8'
